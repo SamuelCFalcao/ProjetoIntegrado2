@@ -1,0 +1,92 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Your existing .bottomMenu styles are mostly correct */
+.bottomMenu {
+    position: fixed; /* This is key: it takes the element out of the normal document flow */
+    bottom: 0;      /* Pins it to the bottom edge of the viewport */
+    left: 0;        /* Pins it to the left edge of the viewport */
+    width: 100%;    /* Makes it span the full width of the viewport */
+    height: 60px;   /* Define a fixed height for your menu */
+    background-color: aqua; /* Your background color */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* Optional: Add a z-index to ensure it stays on top of other content */
+    z-index: 1000; /* A high number to ensure it's above other elements */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow at the top */
+}
+
+.menuItem {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    /* Optional: Add hover effects for better user experience */
+    transition: background-color 0.3s ease;
+}
+
+.menuItem:hover {
+    background-color: rgba(0, 0, 0, 0.2); /* Slightly darker on hover */
+    border-radius: 5px;
+}
+
+/* --- IMPORTANT: Compensate for the fixed menu --- */
+body {
+    /* Prevent default margin that can cause scrolling issues */
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply padding to the main content area to prevent it from being hidden behind the fixed menu */
+/* You'll need to apply this to the specific container that holds your scrollable content. */
+/* Let's assume you have a main content wrapper, e.g., <div class="main-content">...</div> */
+.main-content {
+    padding-bottom: 60px; /* IMPORTANT: This padding should match the height of your .bottomMenu */
+    /* Add any other styling for your main content here */
+    min-height: calc(100vh - 60px); /* Ensure content fills space above the menu if short */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+    padding-top: 50px; /* Assuming there's a top menu/header of 50px */
+    min-height: calc(100vh - 50px - 60px); /* Adjust min-height for both top and bottom menus */
+}
+
+/* --- TimeSeries Specific Responsiveness --- */
+
+/* For smaller screens, allow the table to scroll horizontally */
+/* This targets the div wrapping the table in TimeSeries.jsx */
+.time-series-table-container {
+    overflow-x: auto; /* Allows horizontal scrolling if content overflows */
+    -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS devices */
+}
+
+/* Adjust padding for the overall TimeSeries component on smaller screens */
+/* This targets the outermost div in TimeSeries.jsx which has default padding-6 */
+@media (max-width: 768px) { /* For screens smaller than or equal to 768px (md breakpoint) */
+    .time-series-component-wrapper {
+        padding: 1rem; /* Reduce overall padding */
+    }
+
+    /* Adjust font sizes for better readability on small screens */
+    .time-series-table-container table th,
+    .time-series-table-container table td {
+        padding-left: 0.75rem; /* Smaller horizontal padding for table cells */
+        padding-right: 0.75rem;
+        font-size: 0.875rem; /* Smaller font size for table text */
+    }
+
+    .time-series-component-wrapper h1 {
+        font-size: 1.5rem; /* Smaller header title */
+    }
+
+    .time-series-component-wrapper .text-lg {
+        font-size: 1rem; /* Smaller text for real-time indicator */
+    }
+}
+
+/* You might want to add more specific breakpoints or adjustments as needed */
+/* For example, if columns become too narrow, you could consider a stacked layout for table rows */
+/* or hiding less critical columns on very small screens. */
